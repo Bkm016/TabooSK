@@ -1,0 +1,2 @@
+# TabooSK
+Extension for Skript

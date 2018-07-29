@@ -34,6 +34,6 @@ public class ExprFishState extends SimpleExpression<String> {
 
     @Override
     protected String[] get(final Event e) {
-        return new String[] {ListenerLatestDoing.clickType.get(this.p.getSingle(e))};
+        return new String[] {ListenerLatestDoing.fishState.get(this.p.getSingle(e))};
     }
 }

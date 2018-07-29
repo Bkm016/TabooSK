@@ -16,12 +16,12 @@ public class ListenerLatestDoing implements Listener {
     public static HashMap<Player, String> clickType = new HashMap<>();
     public static HashMap<Player, String> fishState = new HashMap<>();
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onClick(InventoryClickEvent e) {
         clickType.put((Player) e.getWhoClicked(), e.getClick().toString());
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onFish(PlayerFishEvent e) {
         fishState.put(e.getPlayer(), e.getState().name());
     }

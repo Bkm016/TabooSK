@@ -1,4 +1,4 @@
-package me.skymc.skaddon.taboosk.yaml;
+package me.skymc.skaddon.taboosk.handler;
 
 import me.skymc.skaddon.taboosk.TabooSK;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Author sky
  * @Since 2018-07-18 20:48
  */
-public class CacheYaml {
+public class YamlHandler {
 
-    public static final ConcurrentHashMap<String, CacheYaml> CACHE_YAML = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, YamlHandler> CACHE_YAML = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<String, BukkitTask> CACHE_YAML_SAVING_TASK = new ConcurrentHashMap<>();
 
     public static void init() {
@@ -31,7 +31,7 @@ public class CacheYaml {
     private FileConfiguration conf;
     private long lastUpdate;
 
-    public CacheYaml(File file, FileConfiguration conf, long lastUpdate) {
+    public YamlHandler(File file, FileConfiguration conf, long lastUpdate) {
         this.file = file;
         this.conf = conf;
         this.lastUpdate = lastUpdate;

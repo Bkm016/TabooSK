@@ -5,9 +5,11 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+@SkriptAddon(pattern = "[taboosk ]placeholder[ format] %string% (with|for|of|to) %player%")
 public class ExprPlaceholder extends SimpleExpression<String> {
     private Expression<String> str;
     private Expression<Player> pl;

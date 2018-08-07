@@ -4,11 +4,13 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
+@SkriptAddon(pattern = {"[taboosk ]clone %-object% as (1¦item|2¦location)", "[taboosk ]%-object% clone as (1¦item|2¦location)"})
 public class ExprCloneObject extends SimpleExpression<Object> {
 
     private Expression<Object> object;

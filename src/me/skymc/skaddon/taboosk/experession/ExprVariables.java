@@ -1,19 +1,17 @@
 package me.skymc.skaddon.taboosk.experession;
 
-import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author sky
  * @Since 2018-07-29 22:34
  */
+@SkriptAddon(pattern = "[taboosk ](vars|variables)")
 public class ExprVariables extends SimpleExpression<Object> {
 
     @Override

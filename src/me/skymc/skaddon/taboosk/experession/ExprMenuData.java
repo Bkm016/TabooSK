@@ -7,42 +7,51 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
+import me.skymc.skaddon.taboosk.menu.DataMenuHolder;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 /**
  * @Author sky
  * @Since 2018-07-29 22:34
  */
-@SkriptAddon(pattern = "[taboosk ](var|variable) %string%[ default %-object%]")
-public class ExprVariable extends SimpleExpression<Object> {
-
-    public static final ConcurrentHashMap<String, Object> VARIABLES = new ConcurrentHashMap<>();
+@SkriptAddon(pattern = "[taboosk ]%string% (with|for|of|in) %player%['s] data menu[ default %-object%]")
+public class ExprMenuData extends SimpleExpression<Object> {
 
     private Expression<String> node;
+    private Expression<Player> player;
     private Expression<Object> def;
 
     @Override
-    protected Object[] get(Event event) {
-        return CollectionUtils.array(VARIABLES.getOrDefault(this.node.getSingle(event), def == null ? null : def.getSingle(event)));
+    protected Object[] get(Event e) {
+        if (player.getSingle(e).getOpenInventory().getTopInventory().getHolder() instanceof DataMenuHolder) {
+            return CollectionUtils.array(((DataMenuHolder) player.getSingle(e).getOpenInventory().getTopInventory().getHolder()).getMenuData().getOrDefault(this.node.getSingle(e), def == null ? null : def.getSingle(e)));
+        } else {
+            return CollectionUtils.array(def.getSingle(e));
+        }
     }
 
     @Override
     public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
+        if (!(player.getSingle(e).getOpenInventory().getTopInventory().getHolder() instanceof DataMenuHolder)) {
+            return;
+        }
+        HashMap<String, Object> menuData = ((DataMenuHolder) player.getSingle(e).getOpenInventory().getTopInventory().getHolder()).getMenuData();
         switch (mode) {
             case SET:
-                VARIABLES.put(node.getSingle(e), delta[0]);
+                menuData.put(node.getSingle(e), delta[0]);
                 break;
             case RESET:
-                VARIABLES.put(node.getSingle(e), null);
+                menuData.put(node.getSingle(e), null);
                 break;
             case REMOVE:
             case DELETE:
-                VARIABLES.remove(node.getSingle(e));
+                menuData.remove(node.getSingle(e));
                 break;
             case REMOVE_ALL:
-                VARIABLES.clear();
+                menuData.clear();
                 break;
             default:
         }
@@ -71,7 +80,8 @@ public class ExprVariable extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?>[] e, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.node = (Expression<String>) e[0];
-        this.def = e.length > 2 ? (Expression<Object>) e[1] : null;
+        this.player = (Expression<Player>) e[1];
+        this.def = e.length > 2 ? (Expression<Object>) e[2] : null;
         return true;
     }
 }

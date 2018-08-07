@@ -4,10 +4,12 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import me.skymc.skaddon.taboosk.event.ListenerLatestDoing;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+@SkriptAddon(pattern = "[taboosk ][latest ]fish[ state] (with|for|of) %player%")
 public class ExprFishState extends SimpleExpression<String> {
     private Expression<Player> p;
 

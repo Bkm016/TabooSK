@@ -4,8 +4,10 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
+@SkriptAddon(pattern = "[taboosk ]system (date|time|millils)")
 public class ExprTimeMillis extends SimpleExpression<Number> {
     @Override
     public Class<? extends Number> getReturnType() {

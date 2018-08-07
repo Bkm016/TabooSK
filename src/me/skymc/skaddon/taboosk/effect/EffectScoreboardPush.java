@@ -1,13 +1,15 @@
-package me.skymc.skaddon.taboosk.event.effect;
+package me.skymc.skaddon.taboosk.effect;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import me.skymc.taboolib.scoreboard.ScoreboardUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+@SkriptAddon(pattern = "[taboosk ]set %player%['s] scoreboard to %strings%")
 public class EffectScoreboardPush extends Effect {
 
     private Expression<Player> player;

@@ -5,18 +5,20 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Date;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
 import java.text.SimpleDateFormat;
 
-public class ExprGettime extends SimpleExpression<Number> {
+@SkriptAddon(pattern = "[taboosk ]time[ number] %string% in %date%")
+public class ExprGetTime extends SimpleExpression<Number> {
 
     private Expression<Date> date;
     private Expression<String> type;
-    private SimpleDateFormat dateForamt;
+    private SimpleDateFormat dateFormat;
 
-    public ExprGettime() {
-        this.dateForamt = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
+    public ExprGetTime() {
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ExprGettime extends SimpleExpression<Number> {
     @Override
     protected Number[] get(final Event e) {
         final String type = this.type.getSingle(e);
-        final String d = this.dateForamt.format(this.date.getSingle(e).getTimestamp());
+        final String d = this.dateFormat.format(this.date.getSingle(e).getTimestamp());
         if (type.equals("yyyy")) {
             return new Number[] {Integer.valueOf(d.split("-")[0])};
         }

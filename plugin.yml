@@ -1,17 +1,12 @@
-
 name: TabooSK
-
-description: The Skript addon
-
-authors: [坏黑]
-website: http://www.15imc.com/index.html
-
 main: me.skymc.skaddon.taboosk.TabooSK
-
 version: 2.0
 
+authors: [坏黑]
 depend: [Skript]
-soft-depend: [PlaceholderAPI]
+
+soft-depend: [PlaceholderAPI, TabooLib]
 
 commands:
   taboosk:
+    aliases: [tsk]

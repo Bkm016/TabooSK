@@ -5,8 +5,10 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Date;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
+@SkriptAddon(pattern = "[taboosk ]skript[ date] format %number%")
 public class ExprFormatDate extends SimpleExpression<Date> {
     private Expression<Number> time;
 

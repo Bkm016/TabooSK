@@ -6,12 +6,14 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
 /**
  * @Author sky
  * @Since 2018-07-29 23:08
  */
+@SkriptAddon(pattern = "[taboosk ]check[ed] %tcondition% if %-object% else %-object%")
 public class ExprBinaryOperation extends SimpleExpression<Object> {
 
     private Expression<Condition> condition;

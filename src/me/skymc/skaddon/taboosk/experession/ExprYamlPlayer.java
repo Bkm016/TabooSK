@@ -6,29 +6,22 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import me.skymc.skaddon.taboosk.TabooSK;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
-import me.skymc.skaddon.taboosk.handler.YamlHandler;
-import me.skymc.taboolib.playerdata.DataUtils;
+import me.skymc.taboolib.database.PlayerDataManager;
 import me.skymc.taboolib.string.ArrayUtils;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@SkriptAddon(pattern = "[taboosk ]yaml (1¦value|2¦nodes|3¦nodes all|4¦list|5¦values|6¦values all) %string% (with|for|to|in) [file ]%string%[ default %-object%]")
-public class ExprYaml extends SimpleExpression<Object> {
+@SkriptAddon(pattern = "[taboosk ]yaml (1¦value|2¦nodes|3¦nodes all|4¦list|5¦values|6¦values all) %string% (with|for|to|in) %player%[ default %-object%]")
+public class ExprYamlPlayer extends SimpleExpression<Object> {
 
     private Expression<String> node;
-    private Expression<String> file;
+    private Expression<Player> player;
     private Expression<Object> def;
     private States state;
 
@@ -62,7 +55,7 @@ public class ExprYaml extends SimpleExpression<Object> {
             this.state = States.VALUES_ALL;
         }
         this.node = (Expression<String>) e[0];
-        this.file = (Expression<String>) e[1];
+        this.player = (Expression<Player>) e[1];
         this.def = e.length > 2 ? (Expression<Object>) e[2] : null;
         return true;
     }
@@ -75,22 +68,7 @@ public class ExprYaml extends SimpleExpression<Object> {
     @Override
     @Nullable
     protected Object[] get(Event e) {
-        String filePath = this.file.getSingle(e).replace("/'", File.separator);
-        FileConfiguration conf;
-        if (YamlHandler.CACHE_YAML.containsKey(filePath)) {
-            YamlHandler yaml = YamlHandler.CACHE_YAML.get(filePath);
-            conf = yaml.getConf();
-            yaml.update();
-        } else {
-            File file = new File(filePath);
-            try {
-                createFileAndPath(file);
-            } catch (IOException error) {
-                error.printStackTrace();
-            }
-            conf = YamlConfiguration.loadConfiguration(file);
-            YamlHandler.CACHE_YAML.put(filePath, new YamlHandler(file, conf, System.currentTimeMillis()));
-        }
+        FileConfiguration conf = PlayerDataManager.getPlayerData(player.getSingle(e));
         if (!conf.contains(this.node.getSingle(e))) {
             return def != null ? CollectionUtils.array(def.getSingle(e)) : null;
         }
@@ -112,24 +90,7 @@ public class ExprYaml extends SimpleExpression<Object> {
 
     @Override
     public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
-        String filePath = this.file.getSingle(e).replace("/'", File.separator);
-        File file;
-        FileConfiguration conf;
-        if (YamlHandler.CACHE_YAML.containsKey(filePath)) {
-            YamlHandler yaml = YamlHandler.CACHE_YAML.get(filePath);
-            file = yaml.getFile();
-            conf = yaml.getConf();
-            yaml.update();
-        } else {
-            file = new File(filePath);
-            try {
-                createFileAndPath(file);
-            } catch (IOException error) {
-                error.printStackTrace();
-            }
-            conf = YamlConfiguration.loadConfiguration(file);
-            YamlHandler.CACHE_YAML.put(filePath, new YamlHandler(file, conf, System.currentTimeMillis()));
-        }
+        FileConfiguration conf = PlayerDataManager.getPlayerData(player.getSingle(e));
         if (mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.RESET) {
             conf.set(this.node.getSingle(e), null);
         } else {
@@ -163,12 +124,6 @@ public class ExprYaml extends SimpleExpression<Object> {
                 default:
             }
         }
-        Optional.ofNullable(YamlHandler.CACHE_YAML_SAVING_TASK.put(filePath, new BukkitRunnable() {
-            @Override
-            public void run() {
-                DataUtils.saveConfiguration(conf, file);
-            }
-        }.runTaskLaterAsynchronously(TabooSK.getInst(), 20))).ifPresent(BukkitTask::cancel);
     }
 
     @Override
@@ -184,18 +139,5 @@ public class ExprYaml extends SimpleExpression<Object> {
             return (Class[]) CollectionUtils.array(new Class[] {Object.class});
         }
         return null;
-    }
-
-    public static void createFileAndPath(File file) throws IOException {
-        if (!file.exists()) {
-            String filePath = file.getPath();
-            int index = filePath.lastIndexOf(File.separator);
-            String folderPath;
-            File folder;
-            if ((index >= 0) && (!(folder = new File(filePath.substring(0, index))).exists())) {
-                folder.mkdirs();
-            }
-            file.createNewFile();
-        }
     }
 }

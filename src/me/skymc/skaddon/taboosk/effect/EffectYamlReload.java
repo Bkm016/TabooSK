@@ -1,11 +1,12 @@
-package me.skymc.skaddon.taboosk.event.effect;
+package me.skymc.skaddon.taboosk.effect;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import me.skymc.skaddon.taboosk.experession.ExprYaml;
-import me.skymc.skaddon.taboosk.yaml.CacheYaml;
+import me.skymc.skaddon.taboosk.handler.YamlHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
@@ -17,6 +18,7 @@ import java.io.IOException;
  * @Author sky
  * @Since 2018-07-18 21:06
  */
+@SkriptAddon(pattern = "[taboosk ]reload yaml %string%")
 public class EffectYamlReload extends Effect {
 
     private Expression<String> path;
@@ -31,7 +33,7 @@ public class EffectYamlReload extends Effect {
             error.printStackTrace();
         }
         FileConfiguration conf = YamlConfiguration.loadConfiguration(file);
-        CacheYaml.CACHE_YAML.put(filePath, new CacheYaml(file, conf, System.currentTimeMillis()));
+        YamlHandler.CACHE_YAML.put(filePath, new YamlHandler(file, conf, System.currentTimeMillis()));
     }
 
     @Override

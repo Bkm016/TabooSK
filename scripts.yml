@@ -1,0 +1,3 @@
+# 背包相关
+'g:click-slot': 'event.getRawSlot()'
+'g:click-item': 'evnet.getCurrentItem()'

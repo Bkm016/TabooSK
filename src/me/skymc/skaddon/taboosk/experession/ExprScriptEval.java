@@ -36,10 +36,7 @@ public class ExprScriptEval extends SimpleExpression<Object> {
         SimpleBindings bindings = new SimpleBindings();
         bindings.put("event", event);
         if (obj != null) {
-            Object[] array = obj.getArray(event);
-            for (int i = 0; i < array.length; i++) {
-                bindings.put("var-" + i, array[i]);
-            }
+            bindings.put("args", obj.getArray(event));
         }
         try {
             return CollectionUtils.array(script.eval(bindings));

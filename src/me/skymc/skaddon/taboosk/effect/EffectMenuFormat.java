@@ -19,12 +19,12 @@ import java.util.Arrays;
  * @Author sky
  * @Since 2018-08-06 16:05
  */
-@SkriptAddon(pattern = "[taboosk ]format %-object% (with|for|in|to) %player%['s] data menu (with|for|in|to) slot %integers%")
+@SkriptAddon(pattern = "[taboosk ]format %-object% (with|for|in|to) %player%['s] data menu (with|for|in|to) slot %numbers%")
 public class EffectMenuFormat extends Effect {
 
     private Expression<?> item;
     private Expression<Player> player;
-    private Expression<Integer> slot;
+    private Expression<Number> slot;
 
     @Override
     protected void execute(Event e) {
@@ -32,16 +32,16 @@ public class EffectMenuFormat extends Effect {
         if (player.getOpenInventory().getTopInventory().getHolder() instanceof DataMenuHolder) {
             Object obj = item.getSingle(e);
             if (obj instanceof ItemStack) {
-                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot, (ItemStack) obj));
+                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot.intValue(), (ItemStack) obj));
             } else if (obj instanceof ItemType) {
-                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot, ((ItemType) obj).getRandom()));
+                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot.intValue(), ((ItemType) obj).getRandom()));
             } else {
                 ItemStack failedItem = new ItemStack(Material.BEDROCK);
                 ItemMeta itemMeta = failedItem.getItemMeta();
                 itemMeta.setDisplayName("§4!Failed input");
                 itemMeta.setLore(Arrays.asList("", "§c" + obj.getClass().getName()));
                 failedItem.setItemMeta(itemMeta);
-                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot, failedItem));
+                Arrays.stream(slot.getArray(e)).forEach(slot -> player.getOpenInventory().getTopInventory().setItem(slot.intValue(), failedItem));
             }
         }
     }
@@ -55,7 +55,7 @@ public class EffectMenuFormat extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         item = expressions[0];
         player = (Expression<Player>) expressions[1];
-        slot = (Expression<Integer>) expressions[2];
+        slot = (Expression<Number>) expressions[2];
         return true;
     }
 }

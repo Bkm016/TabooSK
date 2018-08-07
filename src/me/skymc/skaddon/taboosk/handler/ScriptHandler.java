@@ -1,7 +1,10 @@
 package me.skymc.skaddon.taboosk.handler;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import me.skymc.skaddon.taboosk.TabooSK;
+import me.skymc.skaddon.taboosk.util.FileUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.script.*;
 import java.util.HashMap;
@@ -17,6 +20,7 @@ public class ScriptHandler {
     private static ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
     private static HashMap<String, CompiledScript> scripts = new HashMap<>();
     private static HashMap<String, CompiledScript> scriptsDynamic = new HashMap<>();
+    private static FileConfiguration scriptsFile;
 
     public static void inst() {
         try {
@@ -35,6 +39,11 @@ public class ScriptHandler {
             Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §4JavaScript §c" + script + "§4 Compile Failed: §c" + e.toString());
             return null;
         }
+    }
+
+    public static void reloadGlobalScripts() {
+        scriptsFile = FileUtil.saveDefaultConfig(TabooSK.getInst(), "scripts.yml");
+        scriptsFile.getConfigurationSection("").getKeys(false).forEach(name -> scripts.put(name, compile(scriptsFile.getString(name))));
     }
 
     // *********************************

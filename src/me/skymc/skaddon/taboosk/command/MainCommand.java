@@ -4,6 +4,7 @@ import me.skymc.skaddon.taboosk.TabooSK;
 import me.skymc.skaddon.taboosk.experession.ExprVariable;
 import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
+import me.skymc.taboolib.skript.SkriptHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -32,6 +33,11 @@ public class MainCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length > 1) {
+            ScriptHandler.reloadGlobalScripts();
+            sender.sendMessage("§8[§3§lTabooSK§8] §7Reload successfully.");
+            return true;
+        }
         if (!(sender instanceof Player)) {
             return true;
         }

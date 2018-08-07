@@ -12,6 +12,8 @@ import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
 import me.skymc.skaddon.taboosk.util.PackageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TabooSK extends JavaPlugin {
@@ -26,8 +28,9 @@ public class TabooSK extends JavaPlugin {
     @Override
     public void onEnable() {
         YamlHandler.init();
-        ScriptHandler.inst();
         PluginClasses.init();
+        ScriptHandler.inst();
+        ScriptHandler.reloadGlobalScripts();
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Author: §f@坏黑");
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerEffect() + "§7 effects.");
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerExpression() + "§7 expressions.");

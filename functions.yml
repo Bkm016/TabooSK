@@ -1,0 +1,12 @@
+# 是否启用以下默认函数
+Functions:
+  int: true
+  num: true
+  str: true
+  year: true
+  month: true
+  day: true
+  hour: true
+  minute: true
+  second: true
+  millisecond: true

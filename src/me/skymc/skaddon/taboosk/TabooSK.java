@@ -8,12 +8,11 @@ import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import me.skymc.skaddon.taboosk.classes.PluginClasses;
 import me.skymc.skaddon.taboosk.command.MainCommand;
 import me.skymc.skaddon.taboosk.event.ListenerLatestDoing;
+import me.skymc.skaddon.taboosk.function.PluginFunction;
 import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
 import me.skymc.skaddon.taboosk.util.PackageUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TabooSK extends JavaPlugin {
@@ -29,6 +28,7 @@ public class TabooSK extends JavaPlugin {
     public void onEnable() {
         YamlHandler.init();
         PluginClasses.init();
+        PluginFunction.init();
         ScriptHandler.inst();
         ScriptHandler.reloadGlobalScripts();
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Author: §f@坏黑");

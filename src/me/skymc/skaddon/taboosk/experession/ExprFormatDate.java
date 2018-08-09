@@ -5,11 +5,13 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Date;
 import ch.njol.util.Kleenean;
+import ch.njol.util.coll.CollectionUtils;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
 @SkriptAddon(pattern = "[taboosk ]skript[ date] format %number%")
 public class ExprFormatDate extends SimpleExpression<Date> {
+
     private Expression<Number> time;
 
     @Override
@@ -23,18 +25,18 @@ public class ExprFormatDate extends SimpleExpression<Date> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
+    public String toString(Event arg0, boolean arg1) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] e, final int i, final Kleenean k, final SkriptParser.ParseResult p) {
+    public boolean init(Expression<?>[] e, int i, Kleenean k, SkriptParser.ParseResult p) {
         this.time = (Expression<Number>) e[0];
         return true;
     }
 
     @Override
-    protected Date[] get(final Event e) {
-        return new Date[] {new Date((long) this.time.getSingle(e))};
+    protected Date[] get(Event e) {
+        return CollectionUtils.array(new Date(time.getSingle(e).longValue()));
     }
 }

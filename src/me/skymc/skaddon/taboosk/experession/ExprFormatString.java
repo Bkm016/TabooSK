@@ -5,6 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Date;
 import ch.njol.util.Kleenean;
+import ch.njol.util.coll.CollectionUtils;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import org.bukkit.event.Event;
 
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 @SkriptAddon(pattern = "[taboosk ]string[ date] format %date% with %string%")
 public class ExprFormatString extends SimpleExpression<String> {
+
     private Expression<Date> dat;
     private SimpleDateFormat dateFormat;
 
@@ -26,19 +28,19 @@ public class ExprFormatString extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
-        return this.getClass().getName();
+    public String toString(Event arg0, boolean arg1) {
+        return get(arg0)[0];
     }
 
     @Override
-    public boolean init(final Expression<?>[] e, final int i, final Kleenean k, final SkriptParser.ParseResult p) {
+    public boolean init(Expression<?>[] e, int i, Kleenean k, SkriptParser.ParseResult p) {
         this.dat = (Expression<Date>) e[0];
         this.dateFormat = new SimpleDateFormat(String.valueOf(e[1]));
         return true;
     }
 
     @Override
-    protected String[] get(final Event e) {
-        return new String[] {this.dateFormat.format(this.dat.getSingle(e).getTimestamp())};
+    protected String[] get(Event e) {
+        return CollectionUtils.array(dateFormat.format(this.dat.getSingle(e).getTimestamp()));
     }
 }

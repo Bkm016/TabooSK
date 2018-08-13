@@ -13,8 +13,8 @@ import org.bukkit.event.Event;
  * @Author sky
  * @Since 2018-08-07 16:02
  */
-@SkriptAddon(pattern = "[taboosk ](submit|async)[:] %teffect%[ delay %number%]")
-public class EffectSubmit extends Effect {
+@SkriptAddon(pattern = "[taboosk ](execute|sync)[:] %teffect%[ delay %number%]")
+public class EffectExecute extends Effect {
 
     private Expression<Effect> effect;
     private Expression<Number> delay;
@@ -22,9 +22,9 @@ public class EffectSubmit extends Effect {
     @Override
     protected void execute(Event event) {
         if (delay == null) {
-            Bukkit.getScheduler().runTaskAsynchronously(TabooSK.getInst(), () -> effect.getSingle(event).run(event));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(TabooSK.getInst(), () -> effect.getSingle(event).run(event));
         } else {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(TabooSK.getInst(), () -> effect.getSingle(event).run(event), delay.getSingle(event).intValue());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(TabooSK.getInst(), () -> effect.getSingle(event).run(event), delay.getSingle(event).intValue());
         }
     }
 

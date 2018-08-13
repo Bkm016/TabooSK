@@ -1,6 +1,7 @@
 package me.skymc.skaddon.taboosk;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -33,6 +34,7 @@ public class TabooSK extends JavaPlugin {
         ScriptHandler.reloadGlobalScripts();
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Author: §f@坏黑");
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerEffect() + "§7 effects.");
+        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerCondition() + "§7 conditions.");
         Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerExpression() + "§7 expressions.");
         Bukkit.getPluginManager().registerEvents(new ListenerLatestDoing(), this);
         Bukkit.getPluginCommand("taboosk").setExecutor(new MainCommand());
@@ -62,6 +64,21 @@ public class TabooSK extends JavaPlugin {
                 if (Expression.class.isAssignableFrom(addonClass) && addonClass.isAnnotationPresent(SkriptAddon.class)) {
                     Expression expression = (Expression) addonClass.newInstance();
                     Skript.registerExpression(addonClass, expression.getReturnType(), ExpressionType.PROPERTY, ((SkriptAddon) addonClass.getAnnotation(SkriptAddon.class)).pattern());
+                    i++;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return i;
+    }
+
+    private int registerCondition() {
+        int i = 0;
+        for (Class addonClass : PackageUtil.getClasses()) {
+            try {
+                if (Condition.class.isAssignableFrom(addonClass) && addonClass.isAnnotationPresent(SkriptAddon.class)) {
+                    Condition condition = (Condition) addonClass.newInstance();
+                    Skript.registerCondition(addonClass, ((SkriptAddon) addonClass.getAnnotation(SkriptAddon.class)).pattern());
                     i++;
                 }
             } catch (Exception ignored) {

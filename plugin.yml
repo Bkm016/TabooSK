@@ -1,6 +1,6 @@
 name: TabooSK
 main: me.skymc.skaddon.taboosk.TabooSK
-version: 2.1
+version: 2.2
 
 authors: [坏黑]
 depend: [Skript]

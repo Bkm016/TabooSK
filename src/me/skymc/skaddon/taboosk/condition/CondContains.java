@@ -13,11 +13,11 @@ import java.util.Arrays;
  * @Author sky
  * @Since 2018-08-13 13:34
  */
-@SkriptAddon(pattern = "[taboosk ]%-object% in [the ]%objects%")
+@SkriptAddon(pattern = "[taboosk ]%-objects% contains of %-object%")
 public class CondContains extends Condition {
 
-    private Expression<?> obj;
     private Expression<?> array;
+    private Expression<?> obj;
 
     @Override
     public boolean check(Event event) {
@@ -31,8 +31,8 @@ public class CondContains extends Condition {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        this.obj = expressions[0];
-        this.array = expressions[1];
+        this.array = expressions[0];
+        this.obj = expressions[1];
         return true;
     }
 }

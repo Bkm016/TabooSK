@@ -21,12 +21,14 @@ import java.util.Calendar;
  */
 public class PluginFunction {
 
+    private static int i = 0;
     private static FileConfiguration functionsFile;
 
     public static void init() {
         functionsFile = FileUtil.saveDefaultConfig(TabooSK.getInst(), "functions.yml");
         registerObjectFunction();
         registerDateFunctions();
+        TabooSK.getInst().getLogger().info("Registered " + i + " functions.");
     }
 
     private static void registerObjectFunction() {
@@ -49,6 +51,12 @@ public class PluginFunction {
             @Override
             public String[] execute(FunctionEvent event, Object[][] obj) {
                 return CollectionUtils.array(String.valueOf(obj[0][0]));
+            }
+        });
+        registerFunction(new JavaFunction("bool", objParam, objClass, true) {
+            @Override
+            public Boolean[] execute(FunctionEvent event, Object[][] obj) {
+                return CollectionUtils.array(Boolean.parseBoolean(String.valueOf(obj[0][0])));
             }
         });
     }
@@ -118,6 +126,7 @@ public class PluginFunction {
     private static void registerFunction(JavaFunction javaFunction) {
         if (functionsFile.getBoolean("Functions." + javaFunction.getName())) {
             Functions.registerFunction(javaFunction);
+            i++;
         }
     }
 }

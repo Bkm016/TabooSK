@@ -12,9 +12,19 @@ import me.skymc.skaddon.taboosk.event.ListenerLatestDoing;
 import me.skymc.skaddon.taboosk.function.PluginFunction;
 import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
+import me.skymc.skaddon.taboosk.util.FileUtil;
 import me.skymc.skaddon.taboosk.util.PackageUtil;
+import me.skymc.taboolib.fileutils.FileUtils;
+import me.skymc.taboolib.plugin.PluginLoadState;
+import me.skymc.taboolib.plugin.PluginLoadStateType;
+import me.skymc.taboolib.plugin.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class TabooSK extends JavaPlugin {
 
@@ -27,6 +37,7 @@ public class TabooSK extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        packageAddons();
         YamlHandler.init();
         PluginClasses.init();
         PluginFunction.init();
@@ -85,6 +96,34 @@ public class TabooSK extends JavaPlugin {
             }
         }
         return i;
+    }
+
+    private void packageAddons() {
+        if (Bukkit.getPluginManager().getPlugin("TabooLib") == null) {
+            return;
+        }
+        try (InputStreamReader reader = new InputStreamReader(getResource("package-addon.txt")); BufferedReader bufferedReader = new BufferedReader(reader)) {
+            // 释放扩展
+            bufferedReader.lines().forEach(line -> {
+                if (!line.isEmpty()) {
+                    saveResource("addon/" + line + ".jar", true);
+                }
+            });
+            // 载入扩展
+            File file = new File(getDataFolder(), "addon");
+            if (file.exists() && file.isDirectory()) {
+                Arrays.stream(file.listFiles()).filter(addonFIle -> !addonFIle.isDirectory()).forEach(addonFIle -> {
+                    PluginLoadState load = PluginUtils.load("TabooSK/addon/" + addonFIle.getName().split("\\.")[0]);
+                    if (load.getStateType() == PluginLoadStateType.LOADED) {
+                        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Loaded: §f" + addonFIle.getName().split("\\.")[0]);
+                    } else {
+                        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §cLoading Failed: §4" + addonFIle.getName().split("\\.")[0] + " §7(" + load.getStateType() + ": " + load.getMessage() + "§8)");
+                    }
+                });
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
     // *********************************

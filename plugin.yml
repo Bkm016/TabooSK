@@ -1,13 +1,13 @@
 name: TabooSK
 main: me.skymc.skaddon.taboosk.TabooSK
-version: 2.4
+version: 2.5
 
 author: 坏黑
 depend:
 - Skript
-soft-depend:
-- PlaceholderAPI
 - TabooLib
+softdepend:
+- PlaceholderAPI
 
 commands:
   taboosk:

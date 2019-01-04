@@ -8,13 +8,11 @@ import ch.njol.skript.lang.ExpressionType;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
 import me.skymc.skaddon.taboosk.classes.PluginClasses;
 import me.skymc.skaddon.taboosk.command.MainCommand;
-import me.skymc.skaddon.taboosk.event.ListenerLatestDoing;
+import me.skymc.skaddon.taboosk.listener.ListenerLatestDoing;
 import me.skymc.skaddon.taboosk.function.PluginFunction;
 import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
-import me.skymc.skaddon.taboosk.util.FileUtil;
 import me.skymc.skaddon.taboosk.util.PackageUtil;
-import me.skymc.taboolib.fileutils.FileUtils;
 import me.skymc.taboolib.plugin.PluginLoadState;
 import me.skymc.taboolib.plugin.PluginLoadStateType;
 import me.skymc.taboolib.plugin.PluginUtils;
@@ -37,19 +35,23 @@ public class TabooSK extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        packageAddons();
-        YamlHandler.init();
-        PluginClasses.init();
-        PluginFunction.init();
-        ScriptHandler.inst();
-        ScriptHandler.reloadGlobalScripts();
-        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Author: §f@坏黑");
-        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerEffect() + "§7 effects.");
-        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerCondition() + "§7 conditions.");
-        Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerExpression() + "§7 expressions.");
-        Bukkit.getPluginManager().registerEvents(new ListenerLatestDoing(), this);
-        Bukkit.getPluginCommand("taboosk").setExecutor(new MainCommand());
-        Bukkit.getScheduler().runTaskTimer(this, () -> ScriptHandler.getScriptsDynamic().clear(), 0, 20 * 60 * 5);
+        try {
+            packageAddons();
+            YamlHandler.init();
+            PluginClasses.init();
+            PluginFunction.init();
+            ScriptHandler.inst();
+            ScriptHandler.reloadGlobalScripts();
+            Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Author: §f@坏黑");
+            Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerEffect() + "§7 effects.");
+            Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerCondition() + "§7 conditions.");
+            Bukkit.getConsoleSender().sendMessage("§8[§3§lTabooSK§8] §7Registered §f" + registerExpression() + "§7 expressions.");
+            Bukkit.getPluginManager().registerEvents(new ListenerLatestDoing(), this);
+            Bukkit.getPluginCommand("taboosk").setExecutor(new MainCommand());
+            Bukkit.getScheduler().runTaskTimer(this, () -> ScriptHandler.getScriptsDynamic().clear(), 0, 20 * 60 * 5);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
     @Override

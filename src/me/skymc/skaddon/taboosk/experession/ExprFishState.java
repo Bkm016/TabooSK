@@ -5,7 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import me.skymc.skaddon.taboosk.annotations.SkriptAddon;
-import me.skymc.skaddon.taboosk.event.ListenerLatestDoing;
+import me.skymc.skaddon.taboosk.listener.ListenerLatestDoing;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 

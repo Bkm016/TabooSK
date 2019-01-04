@@ -39,7 +39,7 @@ public class MainCommand implements CommandExecutor, Listener {
             return true;
         }
         if (!(sender instanceof Player)) {
-            return true;
+            return false;
         }
         Inventory inventory = Bukkit.createInventory(null, 27, "TabooSK Information.");
         ItemStack barr1 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);

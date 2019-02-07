@@ -17,7 +17,7 @@ public class EffectScoreboardEdit extends Effect {
     private Expression<Integer> score;
 
     @Override
-    protected void execute(final Event event) {
+    protected void execute(Event event) {
         int score = this.score.getSingle(event);
         Player player = this.player.getSingle(event);
         Objective objective = player.getScoreboard().getObjective(player.getUniqueId().toString().substring(0, 16));
@@ -31,12 +31,12 @@ public class EffectScoreboardEdit extends Effect {
     }
 
     @Override
-    public String toString(final Event event, final boolean b) {
+    public String toString(Event event, boolean b) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] expressions, final int i, final Kleenean kleenean, final SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.score = (Expression<Integer>) expressions[0];
         this.player = (Expression<Player>) expressions[1];
         this.scoreboard = (Expression<String>) expressions[2];

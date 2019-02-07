@@ -16,17 +16,17 @@ public class EffectScoreboardPush extends Effect {
     private Expression<String> scoreboard;
 
     @Override
-    protected void execute(final Event event) {
+    protected void execute(Event event) {
         ScoreboardUtil.unrankedSidebarDisplay(this.player.getSingle(event), (String[]) this.scoreboard.getArray(event));
     }
 
     @Override
-    public String toString(final Event event, final boolean b) {
+    public String toString(Event event, boolean b) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] expressions, final int i, final Kleenean kleenean, final SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.player = (Expression<Player>) expressions[0];
         this.scoreboard = (Expression<String>) expressions[1];
         return true;

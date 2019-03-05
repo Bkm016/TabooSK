@@ -24,18 +24,18 @@ public class ExprMenuName extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
+    public String toString(Event arg0, boolean arg1) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] e, final int i, final Kleenean k, final SkriptParser.ParseResult p) {
+    public boolean init(Expression<?>[] e, int i, Kleenean k, SkriptParser.ParseResult p) {
         this.p = (Expression<Player>) e[0];
         return true;
     }
 
     @Override
-    protected String[] get(final Event e) {
+    protected String[] get(Event e) {
         return CollectionUtils.array(p.getSingle(e).getOpenInventory().getTopInventory().getTitle());
     }
 }

@@ -25,21 +25,21 @@ public class ExprPlaceholder extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
+    public String toString(Event arg0, boolean arg1) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] i, final int u, final Kleenean k, final SkriptParser.ParseResult p) {
+    public boolean init(Expression<?>[] i, int u, Kleenean k, SkriptParser.ParseResult p) {
         this.str = (Expression<String>) i[0];
         this.pl = (Expression<Player>) i[1];
         return true;
     }
 
     @Override
-    protected String[] get(final Event e) {
-        final String t = this.str.getSingle(e);
-        final Player p = this.pl.getSingle(e);
+    protected String[] get(Event e) {
+        String t = this.str.getSingle(e);
+        Player p = this.pl.getSingle(e);
         return new String[] {PlaceholderAPI.setPlaceholders(p, "%" + t + "%")};
     }
 }

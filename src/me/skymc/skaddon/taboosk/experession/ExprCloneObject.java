@@ -27,19 +27,19 @@ public class ExprCloneObject extends SimpleExpression<Object> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
+    public String toString(Event arg0, boolean arg1) {
         return this.getClass().getName();
     }
 
     @Override
-    public boolean init(final Expression<?>[] e, final int i, final Kleenean k, final SkriptParser.ParseResult result) {
+    public boolean init(Expression<?>[] e, int i, Kleenean k, SkriptParser.ParseResult result) {
         this.object = (Expression<Object>) e[0];
         this.stats = result.mark;
         return true;
     }
 
     @Override
-    protected Object[] get(final Event e) {
+    protected Object[] get(Event e) {
         Object single = this.object.getSingle(e);
         if (stats == 1 && single instanceof ItemStack) {
             return new Object[] {((ItemStack) single).clone()};

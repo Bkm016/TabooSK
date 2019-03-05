@@ -44,7 +44,7 @@ public class ConditionArgument extends SimpleExpression<Entity> {
     }
 
     @Override
-    public String toString(final Event arg0, final boolean arg1) {
+    public String toString(Event arg0, boolean arg1) {
         return this.getClass().getName();
     }
 

@@ -1,7 +1,6 @@
 package me.skymc.skaddon.taboosk.asm;
 
 import com.google.common.collect.Lists;
-import net.minecraft.server.v1_11_R1.CommandException;
 import net.minecraft.server.v1_11_R1.PlayerSelector;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_11_R1.command.CraftBlockCommandSender;
@@ -22,13 +21,13 @@ public class AsmHandlerImpl extends AsmHandler{
         if (sender instanceof CraftPlayer) {
             try {
                 return PlayerSelector.getPlayers(((CraftPlayer) sender).getHandle(), variable, net.minecraft.server.v1_11_R1.Entity.class).stream().map(net.minecraft.server.v1_11_R1.Entity::getBukkitEntity).collect(Collectors.toList());
-            } catch (CommandException e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         } else if (sender instanceof CraftBlockCommandSender) {
             try {
                 return PlayerSelector.getPlayers(((CraftBlockCommandSender) sender).getTileEntity(), variable, net.minecraft.server.v1_11_R1.Entity.class).stream().map(net.minecraft.server.v1_11_R1.Entity::getBukkitEntity).collect(Collectors.toList());
-            } catch (CommandException e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

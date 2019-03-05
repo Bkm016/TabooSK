@@ -4,7 +4,6 @@ import me.skymc.skaddon.taboosk.TabooSK;
 import me.skymc.skaddon.taboosk.experession.ExprVariable;
 import me.skymc.skaddon.taboosk.handler.ScriptHandler;
 import me.skymc.skaddon.taboosk.handler.YamlHandler;
-import me.skymc.taboolib.skript.SkriptHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

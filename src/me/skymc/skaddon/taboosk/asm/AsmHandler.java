@@ -3,7 +3,6 @@ package me.skymc.skaddon.taboosk.asm;
 import me.skymc.skaddon.taboosk.TabooSK;
 import me.skymc.taboolib.common.function.TFunction;
 import me.skymc.taboolib.common.versioncontrol.SimpleVersionControl;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 
